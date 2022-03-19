@@ -73,6 +73,7 @@ app.get('/filmes/:id', (requisicao, resposta) => {
     resposta.status(404).send('Filme não encontrado!')
 })
 
+
 //requisição POST pra adicionar um filme na lista
 //teste: POST pelo postman com o endpoint: http://localhost:3000/filmes/ com a mesma estrutura que o array possui
 app.post('/filmes', (requisicao, resposta) => {
@@ -94,4 +95,18 @@ app.delete('/filmes/:id', (requisicao, resposta) => {
     })
     resposta.send(`Filme com id ${id} excluído!`)
 
+})
+
+const findItem = id => {
+    return movies.find(item => item.id == id);
+};
+
+//requisição PUT para alterar uma informação
+//teste: http://localhost:3000/filmes/id-do-filme-aqui  
+app.put('/filmes/:id', (requisicao, resposta) => {
+    movies[requisicao.params.id - 1].nome = requisicao.body.nome;
+    movies[requisicao.params.id - 1].foto = requisicao.body.foto;
+    movies[requisicao.params.id - 1].descricao = requisicao.body.descricao;
+    movies[requisicao.params.id - 1].elenco = requisicao.body.elenco;
+    return resposta.json(movies[requisicao.params.id - 1]);
 })
